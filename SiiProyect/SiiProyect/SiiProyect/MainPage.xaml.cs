@@ -121,7 +121,7 @@ namespace SiiProyect
             WSLogin objWSL = new WSLogin();
             try
             {
-                String resultado = await objWSL.Conexion(txtUsuarioLogin.Text,txtContrasenaLogin.Text);
+                List<String> resultado = await objWSL.Conexion(txtUsuarioLogin.Text,txtContrasenaLogin.Text);
                 if(!resultado.Equals("Acceso Denegado"))
                 {
                     //await DisplayAlert("Bienvenido","Usuario Correcto","Aceptar");
@@ -129,7 +129,7 @@ namespace SiiProyect
                     await imgLogin.ScaleTo(0.9, 1500, Easing.Linear);
                     await imgLogin.ScaleTo(150, 1200, Easing.Linear);
                     //Application.Current.MainPage = new MainPage();
-                    await Navigation.PushModalAsync(new DashBoardAlumno());
+                    await Navigation.PushModalAsync(new DashBoardAlumno(resultado[0],resultado[1]));
                 }
             }
             catch (Exception) { }

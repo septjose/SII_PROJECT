@@ -13,12 +13,13 @@ namespace SiiProyect.Vistas
             {
                 Title = "Inicio",
                 IconSource = "iconoInicio.png",
+                //TargetType = typeof(MainPage),
             });
             this.Add(new MenuOpcion()
             {
                 Title = "Buzon de Quejas",
                 IconSource = "iconoBuzon.png",
-                //TargetType = typeof(RamasGrupos),
+                //TargetType = typeof(MainPage),
             });
             this.Add(new MenuOpcion()
             {

@@ -12,18 +12,18 @@ namespace SiiProyect.WebServices
     class WSLogin
     {
 
-        public async Task<String> Conexion(String user, String pwd)
+        public async Task<List<String>> Conexion(String user, String pwd)
         {
             HttpClient httpClient = new HttpClient();
             //192.168.100.56:5000
-            httpClient.BaseAddress = new Uri("http://192.168.100.249:3000");
+            httpClient.BaseAddress = new Uri("http://192.168.100.56:5000");
 
             httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-            var authData = string.Format("{0}:{1}", "root", "root");
-            var authHeaderValue = Convert.ToBase64String(Encoding.UTF8.GetBytes(authData));
-            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authHeaderValue);
+            //var authData = string.Format("{0}:{1}", "root", "root");
+            //var authHeaderValue = Convert.ToBase64String(Encoding.UTF8.GetBytes(authData));
+            //ttpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", authHeaderValue);
             //ws/sii/login/
-            var respuesta = await httpClient.GetAsync("/api/login/" + user + "/" + pwd);
+            var respuesta = await httpClient.GetAsync("/ws/sii/login/" + user + "/" + pwd);
             var objJSON = respuesta.Content.ReadAsStringAsync().Result;
 
             //Login objLogin = new Login();
@@ -33,7 +33,10 @@ namespace SiiProyect.WebServices
             {
                 objLogin = JsonConvert.DeserializeObject<Login>(objJSON);
             }
-            return objLogin.token;
+            List<String> list = new List<string>();
+            list.Add(objLogin.nocont);
+            list.Add(objLogin.token);
+            return list;
         }
     }
 }

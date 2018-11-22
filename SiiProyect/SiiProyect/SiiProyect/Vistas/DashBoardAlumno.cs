@@ -10,28 +10,31 @@ namespace SiiProyect.Vistas
     {
         private MenuDashBoard menuPage;
         private string sportSelected;
-        private Fondo fondo;
+        private Alumno alumno;
         //private Fondo fondo;
-        public DashBoardAlumno()
+        public DashBoardAlumno(string nocont,string token)
         {
-            crearGui();
+            crearGui(nocont,token);
         }
 
-        private void crearGui()
+        private void crearGui(string nocont,string token)
         {
             menuPage = new MenuDashBoard();
-            fondo = new Fondo();
+            alumno = new Alumno(nocont,token);
             menuPage.OpcionesMenu.ItemSelected += (sender, e) => NavigationTo(e.SelectedItem as MenuOpcion);
             ToolbarItems.Add(
                 new ToolbarItem
                 {
-                    Icon = "icon.png",
+                    Icon = "fondo.png",
                     Text = "Selección de disciplinas",
                     Order = ToolbarItemOrder.Primary,
                     Command = new Command(async () =>
                     {
                         sportSelected = await App.Current.MainPage.DisplayActionSheet("Disciplinas", "Cancelar", null,
                             "Ajedrez", "Atletismo", "Básquetbol", "Béisbol",
+                            "Fútbol", "Natación", "Tenis",
+                            "Fútbol", "Natación", "Tenis",
+                            "Fútbol", "Natación", "Tenis",
                             "Fútbol", "Natación", "Tenis",
                             "Vóleibol de Playa", "Vóleibol de Sala");
                         if (sportSelected == null)
@@ -83,7 +86,7 @@ namespace SiiProyect.Vistas
                 }
             );
             Master = menuPage;
-            Detail = new NavigationPage(fondo);
+            Detail = new NavigationPage(alumno);
         }
         private void NavigationTo(MenuOpcion item)
         {
