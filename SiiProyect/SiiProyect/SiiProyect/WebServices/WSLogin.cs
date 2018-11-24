@@ -25,7 +25,7 @@ namespace SiiProyect.WebServices
             //ws/sii/login/
             var respuesta = await httpClient.GetAsync("/ws/sii/login/" + user + "/" + pwd);
             var objJSON = respuesta.Content.ReadAsStringAsync().Result;
-
+           
             //Login objLogin = new Login();
             Login objLogin = new Login();
 
@@ -36,6 +36,7 @@ namespace SiiProyect.WebServices
             List<String> list = new List<string>();
             list.Add(objLogin.nocont);
             list.Add(objLogin.token);
+            Settings.Settings.token = objLogin.token;
             return list;
         }
     }

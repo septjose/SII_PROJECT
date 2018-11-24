@@ -1,4 +1,4 @@
-﻿using SiiProyect.Modelos;
+﻿using SiiProyect.Vistas;
 using SiiProyect.WebServices;
 using System;
 using System.Collections.Generic;
@@ -12,38 +12,113 @@ namespace SiiProyect.Vistas
     {
         private ListView lv_inst;
         private StackLayout st_inst;
-        private List<Kardex> list_inst;
+        private List<Modelos.Kardex> list_inst;
         private WSKardex objWsKardex;
-        public Kardex(string nocont,string token)
+        public Kardex()
         {
+            list_inst = new List<Modelos.Kardex>();
             objWsKardex = new WSKardex();
-            crearGUIAsync(nocont, token);
+            CrearGUIAsync();
         }
-        public async Task crearGUIAsync(string nocont, string token)
+        public void CrearGUIAsync()
         {
-            var lista = await objWsKardex.listaKardex(nocont, token);
-            //lv_inst.ItemsSource = list_inst;
-            Title = "Kardex";
-            //lv_inst = new ListView()
-            //{
-            //    HasUnevenRows = true, //Estandarizar items
-            //    //ItemTemplate = celda
-            //};
-            Button btn = new Button
+            lv_inst = new ListView()
             {
-                Text = "prueba"
+                HasUnevenRows = true, //Estandarizar items
+                ItemTemplate = new DataTemplate(typeof(ResultCell))
             };
-            btn.Clicked += async (sender, args) => await DisplayAlert("Error", nocont+"\n"+token, "Aceptar");
+            
             st_inst = new StackLayout()
             {
                 Orientation = StackOrientation.Vertical,
                 Padding = new Thickness(20),
                 Children =
                 {
-                    btn
+                    lv_inst
                 }
             };
             Content = st_inst;
         }
+        protected override async void OnAppearing()
+        {
+            base.OnAppearing();
+            try
+            {
+                lv_inst.IsVisible = false;
+                list_inst = await objWsKardex.listaKardex();
+                lv_inst.ItemsSource = list_inst;
+                lv_inst.IsVisible = true;
+            }
+            catch (Exception e) { await DisplayAlert("", e.StackTrace, ""); }
+
+        }
+    }
+    class ResultCell : ViewCell
+    {
+        public ResultCell()
+        {
+            int width = 100, heigh = 35;
+
+            var lblmateria = new Label()
+            {
+                HorizontalTextAlignment = TextAlignment.Start,
+                FontSize = 14,
+                HeightRequest = heigh,
+                WidthRequest = width,
+                TextColor = Color.Gray,
+                FontFamily = "Roboto"
+            };
+            lblmateria.SetBinding(Label.TextProperty, "cvemat");
+            var lblOportunity = new Label
+            {
+                HorizontalTextAlignment = TextAlignment.Start,
+                FontSize = 14,
+                HeightRequest = heigh,
+                WidthRequest = 50,
+                TextColor = Color.Gray,
+                FontFamily = "Roboto"
+            };
+            lblOportunity.SetBinding(Label.TextProperty, "materia.creditos");
+            var lblQualification = new Label
+            {
+                HorizontalTextAlignment = TextAlignment.Start,
+                FontSize = 14,
+                HeightRequest = heigh,
+                WidthRequest = 50,
+                TextColor = Color.Gray,
+                FontFamily = "Roboto",
+                FontAttributes = FontAttributes.Bold
+            };
+            lblQualification.SetBinding(Label.TextProperty, "materia.nombre");
+
+            var lblSemester = new Label
+            {
+                HorizontalTextAlignment = TextAlignment.Start,
+                FontSize = 14,
+                HeightRequest = heigh,
+                WidthRequest = 50,
+                TextColor = Color.Gray,
+                FontFamily = "Roboto",
+
+            };
+            lblSemester.SetBinding(Label.TextProperty, "calificacion");
+
+            var stackList = new StackLayout
+            {
+                Padding = new Thickness(10),
+                Orientation = StackOrientation.Horizontal,
+                VerticalOptions = LayoutOptions.Start,
+                HorizontalOptions = LayoutOptions.Center,
+                Children =
+                {
+                    lblmateria,
+                    lblOportunity,
+                    lblQualification,
+                    lblSemester
+                }
+            };
+            View = stackList;
+        }
+
     }
 }

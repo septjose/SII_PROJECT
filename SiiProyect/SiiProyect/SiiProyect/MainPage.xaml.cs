@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using XLabs.Forms.Controls;
 
 namespace SiiProyect
 {
@@ -14,12 +15,19 @@ namespace SiiProyect
         private ActivityIndicator aiIndicadorLogin;
         private Image imgLogin;
         private Entry txtUsuarioLogin,txtContrasenaLogin;
+        private CheckBox checkbox;
         private Button btnLogin;
         private Label lblLogin;
         private StackLayout stkLogin;
         private RelativeLayout rlLogin;
         public MainPage()
         {
+            checkbox = new CheckBox
+            {
+                DefaultText = "Recordar",
+                FontSize = 13,
+                HorizontalOptions = LayoutOptions.CenterAndExpand
+            };
             //InitializeComponent();
             BackgroundColor = Color.Azure;
             NavigationPage.SetHasNavigationBar(this, false);
@@ -74,6 +82,7 @@ namespace SiiProyect
                     imgLogin,
                     txtUsuarioLogin,
                     txtContrasenaLogin,
+                    checkbox,
                     btnLogin,
                     aiIndicadorLogin
                 }
@@ -100,6 +109,11 @@ namespace SiiProyect
                 Constraint.RelativeToParent((parent) => { return parent.Width; }),
                 Constraint.RelativeToParent((parent) => { return parent.Width; })
             );
+            if(!String.IsNullOrEmpty(Settings.Settings.nocont) && !String.IsNullOrEmpty(Settings.Settings.password))
+            {
+                txtUsuarioLogin.Text = Settings.Settings.nocont;
+                txtContrasenaLogin.Text = Settings.Settings.password;
+            }
             Content = rlLogin;
         }
 
@@ -124,12 +138,22 @@ namespace SiiProyect
                 List<String> resultado = await objWSL.Conexion(txtUsuarioLogin.Text,txtContrasenaLogin.Text);
                 if(!resultado.Equals("Acceso Denegado"))
                 {
+                    if (checkbox.Checked)
+                    {
+                        Settings.Settings.nocont = txtUsuarioLogin.Text;
+                        Settings.Settings.password = txtContrasenaLogin.Text;
+                    }
+                    else
+                    {
+                        Settings.Settings.nocont = null;
+                        Settings.Settings.password = null;
+                    }
                     //await DisplayAlert("Bienvenido","Usuario Correcto","Aceptar");
                     await imgLogin.ScaleTo(1, 2000);
                     await imgLogin.ScaleTo(0.9, 1500, Easing.Linear);
                     await imgLogin.ScaleTo(150, 1200, Easing.Linear);
                     //Application.Current.MainPage = new MainPage();
-                    await Navigation.PushModalAsync(new DashBoardAlumno(resultado[0],resultado[1]));
+                    await Navigation.PushModalAsync(new DashBoardAlumno());
                 }
             }
             catch (Exception) { }

@@ -6,7 +6,7 @@ namespace SiiProyect.Modelos
 {
     class Kardex
     {
-        public string cvmat { get; set; }
+        public string cvemat { get; set; }
         public Materia materia { get; set; }
         public int calificacion { get; set; }
         public Oportunidad oportunidad { get; set; }

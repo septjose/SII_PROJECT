@@ -7,7 +7,7 @@ namespace SiiProyect.Vistas
 {
     class CargaAcademica:ContentPage
     {
-        public CargaAcademica(string alumno)
+        public CargaAcademica()
         {
 
         }

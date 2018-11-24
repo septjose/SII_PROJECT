@@ -7,7 +7,7 @@ namespace SiiProyect.Vistas
 {
     class OrdenEntrada:ContentPage
     {
-        public OrdenEntrada(string alumno)
+        public OrdenEntrada()
         {
 
         }

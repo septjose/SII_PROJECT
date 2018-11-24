@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SiiProyect.Settings;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Xamarin.Forms;
@@ -25,14 +26,14 @@ namespace SiiProyect.Vistas
         private StackLayout layout;
         private ScrollView scroll;
 
-        public Alumno(string nocont,string token)
+        public Alumno()
         {
-            crearGUI(nocont,token);
+            crearGUI();
         }
 
-        private void crearGUI(string nocont,string token)
+        private void crearGUI()
         {
-            Title = nocont;
+            Title = Settings.Settings.nocont;
             btnKardex = new ImageButton
             {
                 Source = "iconoFondoKardex.png",
@@ -42,7 +43,7 @@ namespace SiiProyect.Vistas
                 WidthRequest = Application.Current.MainPage.Width,
                 HeightRequest = 100
             };
-            btnKardex.Clicked += async (sender,args)=> await Navigation.PushModalAsync(new DashBoardKardex(nocont,token));
+            btnKardex.Clicked += async (sender,args)=> await Navigation.PushModalAsync(new DashBoardKardex());
             btnCargaAcademica = new ImageButton
             {
                 Source = "iconoFondoCargaAcademica.png",
@@ -52,7 +53,7 @@ namespace SiiProyect.Vistas
                 WidthRequest = Application.Current.MainPage.Width,
                 HeightRequest = 100
             };
-            btnCargaAcademica.Clicked += async (sender, args) => await Navigation.PushModalAsync(new DashBoardCargaAcademica(""));
+            btnCargaAcademica.Clicked += async (sender, args) => await Navigation.PushModalAsync(new DashBoardCargaAcademica());
             btnCargaAcademica.Clicked += async (sender, args) => await DisplayAlert("Error", "Boton Carga Academica", "Aceptar");
             //btnCargaAcademica.Clicked += OnImageButtonClicked;
             btnOrdenEntrada = new ImageButton
@@ -64,7 +65,7 @@ namespace SiiProyect.Vistas
                 WidthRequest = Application.Current.MainPage.Width,
                 HeightRequest = 100
             };
-            btnOrdenEntrada.Clicked += async (sender, args) => await Navigation.PushModalAsync(new DashBoardOrdenEntrada(""));
+            btnOrdenEntrada.Clicked += async (sender, args) => await Navigation.PushModalAsync(new DashBoardOrdenEntrada());
             btnDatosPersonales = new ImageButton
             {
                 Source = "iconoFondoDatosPersonales.png",
@@ -74,7 +75,7 @@ namespace SiiProyect.Vistas
                 WidthRequest = Application.Current.MainPage.Width,
                 HeightRequest = 100
             };
-            btnDatosPersonales.Clicked += async (sender, args) => await Navigation.PushModalAsync(new DashBoardDatosPersonales(""));
+            btnDatosPersonales.Clicked += async (sender, args) => await Navigation.PushModalAsync(new DashBoardDatosPersonales());
             btnEncuesta = new ImageButton
             {
                 Source = "iconoFondoEncuesta.png",
@@ -84,7 +85,7 @@ namespace SiiProyect.Vistas
                 WidthRequest = Application.Current.MainPage.Width,
                 HeightRequest = 100
             };
-            btnEncuesta.Clicked += async (sender, args) => await Navigation.PushModalAsync(new DashBoardEncuesta(""));
+            btnEncuesta.Clicked += async (sender, args) => await Navigation.PushModalAsync(new DashBoardEncuesta());
             stkLinea1 = new StackLayout
             {
                 Orientation = StackOrientation.Horizontal,

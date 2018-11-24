@@ -7,7 +7,7 @@ namespace SiiProyect.Vistas
 {
     class DatosPersonales:ContentPage
     {
-        public DatosPersonales(string alumno)
+        public DatosPersonales()
         {
 
         }

@@ -7,7 +7,7 @@ namespace SiiProyect.Vistas
 {
     class Encuesta:ContentPage
     {
-        public Encuesta(string alumno)
+        public Encuesta()
         {
             crearGUI();
         }
